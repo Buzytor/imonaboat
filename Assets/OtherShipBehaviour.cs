@@ -16,9 +16,11 @@ public class OtherShipBehaviour : MonoBehaviour {
 
 
     private Vector3 startPosition;
-    private Vector3 startDirection;
+    private Vector3 startAngle;
 
-    public float speed = 0.1f;
+    public float speed = 1.0f;
+
+    private PlayerShipBehaviour player;
 
     static Vector3 generateStartPosition() {
         float x, y, z;
@@ -32,29 +34,24 @@ public class OtherShipBehaviour : MonoBehaviour {
         return new Vector3(x, y, z);
     }
 
-    static Vector3 generateStartDirection() {
-        float x, y, z;
-        y = 0;
-        x = Random.Range(posRanXm, posRanXM);
-        z = Random.Range(posRanZm, posRanZM);
-        Vector3 result = new Vector3(x, y, z);
-        return result.normalized;
-    }
-
 	// Use this for initialization
     void Start() {
-        startPosition = generateStartPosition();
-        startDirection = generateStartDirection();
+        player = GameObject.Find("PlayerShip").GetComponent<PlayerShipBehaviour>();
 
-        Quaternion directionQuat = new Quaternion();
-        directionQuat.SetLookRotation(startDirection-startPosition, Vector3.forward); //it's down because the ship is scaled by -Z
+        startPosition = generateStartPosition();
+
+        float alpha = Random.Range(-180, 180);
+        Debug.Log(alpha);
+        Quaternion directionQuat = Quaternion.AngleAxis(alpha, Vector3.up);
 
         this.gameObject.transform.position = startPosition;
         this.gameObject.transform.rotation = directionQuat;
     }
 	
 	// Update is called once per frame
-	void Update () {
-        transform.Translate(Vector3.up*speed);
+	void Update() {
+        transform.Translate(Vector3.forward*speed*Time.deltaTime, Space.Self);
+        transform.Translate(player.velocity*Time.deltaTime, Space.World);
 	}
+    
 }
