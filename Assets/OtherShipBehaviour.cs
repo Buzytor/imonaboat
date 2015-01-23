@@ -41,7 +41,6 @@ public class OtherShipBehaviour : MonoBehaviour {
         startPosition = generateStartPosition();
 
         float alpha = Random.Range(-180, 180);
-        Debug.Log(alpha);
         Quaternion directionQuat = Quaternion.AngleAxis(alpha, Vector3.up);
 
         this.gameObject.transform.position = startPosition;
@@ -53,5 +52,15 @@ public class OtherShipBehaviour : MonoBehaviour {
         transform.Translate(Vector3.forward*speed*Time.deltaTime, Space.Self);
         transform.Translate(player.velocity*Time.deltaTime, Space.World);
 	}
+
+    public bool IsOutsideOfMap() {
+        // Game map is of size [-50, 50]x[-50, 50]
+        return Mathf.Abs(transform.position.x) > 50.0f || Mathf.Abs(transform.position.z) > 50.0f;
+    }
+
+    public bool Delete() {
+        Destroy(this.gameObject);
+        return true; // intentional, allows for && with predicates
+    }
     
 }
