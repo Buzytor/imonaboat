@@ -22,7 +22,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider collider) {
-        // TODO failure state
-        Debug.Log("Collision!");
+        GameObject c = GameObject.Find("GameController");
+        c.GetComponent<GameFailureBehaviour>().GameOver();
     }
 }
