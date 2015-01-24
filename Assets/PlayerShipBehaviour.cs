@@ -18,7 +18,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         float w = wob.GetWobWob();
-        transform.Translate(Vector3.up*w*Time.deltaTime);
+        transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
 	}
 
     void OnCollisionEnter(Collision collider) {

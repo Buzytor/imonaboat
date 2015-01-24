@@ -20,6 +20,9 @@ public class OtherShipBehaviour : MonoBehaviour {
 
     public float speed = 1.0f;
 
+    public float avoidanceDistance = 1.0f;
+    public float avoidanceSpeed = 0.5f;
+
     private PlayerShipBehaviour player;
     private Wobbler wob;
 
@@ -52,10 +55,30 @@ public class OtherShipBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
         float w = wob.GetWobWob();
-        transform.Translate(Vector3.up*w*Time.deltaTime);
+        transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
         transform.Translate(Vector3.forward*speed*Time.deltaTime, Space.Self);
         transform.Translate(player.velocity*Time.deltaTime, Space.World);
+        GameObject[] ships = GameObject.FindGameObjectsWithTag("Obstacle");
+        foreach(GameObject ship in ships){
+            if(ship != this.gameObject)
+                transform.Translate(AvoidanceManeuver(ship)*Time.deltaTime, Space.World);
+        }
 	}
+
+    public Vector3 AvoidanceManeuver(GameObject ship) {
+        GameObject[] toAvoid = GameObject.FindGameObjectsWithTag("Obstacle");
+        Vector3 maneuver = new Vector3();
+        foreach (GameObject otherShip in toAvoid) {
+            float dist = Vector3.Distance(ship.transform.position, otherShip.transform.position);
+            if(dist < avoidanceDistance) {
+                Vector3 positionDelta = otherShip.transform.position - ship.transform.position;
+                Vector3 radiusVector = positionDelta.normalized * avoidanceDistance;
+                maneuver += (radiusVector - positionDelta)/2 * avoidanceSpeed;
+            }
+        }
+        maneuver.y = 0;
+        return maneuver;
+    }
 
     public bool IsOutsideOfMap() {
         // Game map is of size [-50, 50]x[-50, 50]

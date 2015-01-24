@@ -33,7 +33,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        AddShips(5);
+        AddShips(20);
 	}
 	
 	// Update is called once per frame
