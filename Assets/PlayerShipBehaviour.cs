@@ -21,7 +21,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
         transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
 	}
 
-    void OnCollisionEnter(Collision collider) {
+    void OnTriggerEnter(Collider collider) {
         // TODO failure state
         Debug.Log("Collision!");
     }
