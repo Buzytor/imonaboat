@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class OtherShipBehaviour : MonoBehaviour {
-
+    
     //full range
     public static float posRanZm = -40.0f;
     public static float posRanZM = 40.0f;
@@ -18,24 +18,26 @@ public class OtherShipBehaviour : MonoBehaviour {
     private Vector3 startPosition;
     private Vector3 startAngle;
 
+    public float startY = 0.0f;
     public float speed = 1.0f;
 
     public float avoidanceDistance = 1.0f;
     public float avoidanceSpeed = 0.5f;
 
+    public float wobbleScale = 0.5f;
+
     private PlayerShipBehaviour player;
     private Wobbler wob;
 
-    static Vector3 generateStartPosition() {
-        float x, y, z;
-        y = 0;
+    private Vector3 generateStartPosition() {
+        float x, z;
         do {
             x = Random.Range( posRanXm, posRanXM );
         } while(x < excRanXm || x > excRanXM);
         do {
             z = Random.Range( posRanZm, posRanZM );
         } while(z < excRanZm || z > excRanZM);
-        return new Vector3(x, y, z);
+        return new Vector3(x, startY, z);
     }
 
 	// Use this for initialization
@@ -49,7 +51,11 @@ public class OtherShipBehaviour : MonoBehaviour {
 
         this.gameObject.transform.position = startPosition;
         this.gameObject.transform.rotation = directionQuat;
-        wob = new Wobbler();
+
+        startAngle = directionQuat * (-Vector3.forward);
+
+
+        wob = new Wobbler(wobbleScale);
     }
 	
 	// Update is called once per frame
@@ -57,9 +63,15 @@ public class OtherShipBehaviour : MonoBehaviour {
        
         float w = wob.GetWobWob();
         transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
-        transform.Translate(Vector3.forward*speed*Time.deltaTime, Space.Self);
+
+        transform.Translate(startAngle*speed*Time.deltaTime, Space.Self);
+
+        Vector3 avoidanceManeuver = AvoidanceManeuver(gameObject);
+        transform.Translate(avoidanceManeuver*Time.deltaTime, Space.World);
+        Quaternion lookRotation = Quaternion.LookRotation(avoidanceManeuver);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 1);
+
         transform.Translate(player.velocity*Time.deltaTime, Space.World);
-        transform.Translate(AvoidanceManeuver(gameObject)*Time.deltaTime, Space.World);
 	}
 
     public Vector3 AvoidanceManeuver(GameObject ship) {
@@ -72,7 +84,6 @@ public class OtherShipBehaviour : MonoBehaviour {
                 Vector3 positionDelta = -otherShip.transform.position + ship.transform.position;
                 positionDelta.y = 0;
                 Vector3 radiusVector = positionDelta.normalized * avoidanceDistance;
-                Debug.Log(positionDelta + " " + radiusVector);
                 maneuver += (radiusVector - positionDelta)/2 * avoidanceSpeed;
             }
         }

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 
 class Wobbler {
-    public float maxYWobbble = 0.5f;
+    private float maxYWobbble = 0.5f;
     public int wobblePhases = 30;
-    private float YWobbble = 0;
-    private bool directionUp = true;
     private float alpha = 0;
     private float randomness = 1;
 
-    public Wobbler() { 
+    public Wobbler(float maxYWobbble) {
+        this.maxYWobbble = maxYWobbble;
         randomness = Random.Range(0.5f, 1.5f);
     }
 
