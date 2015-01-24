@@ -7,21 +7,21 @@ public class PlayerShipBehaviour : MonoBehaviour {
     public float speed = 1.0f;
     public Vector3 velocity;
 
-    Wobbler wob = new Wobbler();
+    Wobbler wob;
 
 	// Use this for initialization
 	void Start () {
         velocity = -Vector3.forward*speed;
-	}
+        wob = new Wobbler();
+    }
 	
 	// Update is called once per frame
 	void Update () {
         float w = wob.GetWobWob();
-        Debug.Log(w);
         transform.Translate(Vector3.up*w*Time.deltaTime);
 	}
 
-    void OnTrigerEnter(Collider collider) {
+    void OnCollisionEnter(Collision collider) {
         // TODO failure state
         Debug.Log("Collision!");
     }

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,15 +9,15 @@ class Wobbler {
     private float YWobbble = 0;
     private bool directionUp = true;
     private float alpha = 0;
+    private float randomness = 1;
+
+    public Wobbler() { 
+        randomness = Random.Range(0.5f, 1.5f);
+    }
 
     public float GetWobWob() {
-        alpha += (Mathf.PI/wobblePhases) % (2* Mathf.PI);
+        alpha += (Mathf.PI/wobblePhases) * randomness % (2* Mathf.PI);
         float wobbleStep = maxYWobbble * Mathf.Sin(alpha);
-        if(YWobbble + wobbleStep > maxYWobbble) {
-            directionUp = false;
-        } else if(YWobbble - wobbleStep < -maxYWobbble) {
-            directionUp = true;
-        }
         return wobbleStep;
     }
 

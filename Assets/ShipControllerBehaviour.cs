@@ -15,22 +15,30 @@ public class ShipControllerBehaviour : MonoBehaviour {
         }
     }
 
-    public void CheckAndDeleteShips() {
+    public int CheckAndDeleteShips() {
+        int count = 0;
         ships.RemoveAll(ship =>
                             ship.GetComponent<OtherShipBehaviour>().IsOutsideOfMap()
                             && ship.GetComponent<OtherShipBehaviour>().Delete()
-                        );
-    }	
+                            && ++count >= 0 // DIRTY HAGZ IMMA MAGICIAN
+                            );
+        return count;
+    }
+
+    public void AddShips(int count) { 
+        for(int i=0; i<count; i++) {
+            CreateShip();
+        }
+    }
 
 	// Use this for initialization
 	void Start () {
-        for(int i=0; i<5; i++) {
-            CreateShip();
-        }
+        AddShips(5);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        CheckAndDeleteShips();	
+        int toAdd = CheckAndDeleteShips();
+        AddShips(toAdd);
 	}
 }

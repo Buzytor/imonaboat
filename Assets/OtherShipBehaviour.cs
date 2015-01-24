@@ -21,6 +21,7 @@ public class OtherShipBehaviour : MonoBehaviour {
     public float speed = 1.0f;
 
     private PlayerShipBehaviour player;
+    private Wobbler wob;
 
     static Vector3 generateStartPosition() {
         float x, y, z;
@@ -45,10 +46,13 @@ public class OtherShipBehaviour : MonoBehaviour {
 
         this.gameObject.transform.position = startPosition;
         this.gameObject.transform.rotation = directionQuat;
+        wob = new Wobbler();
     }
 	
 	// Update is called once per frame
 	void Update() {
+        float w = wob.GetWobWob();
+        transform.Translate(Vector3.up*w*Time.deltaTime);
         transform.Translate(Vector3.forward*speed*Time.deltaTime, Space.Self);
         transform.Translate(player.velocity*Time.deltaTime, Space.World);
 	}
