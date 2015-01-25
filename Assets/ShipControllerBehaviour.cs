@@ -75,8 +75,10 @@ public class ShipControllerBehaviour : MonoBehaviour {
             if(CheckAndDeleteShips() == 0) {
                 LoadLevel(curLevel);
                 curLevel ++;
-                if(curLevel == Levels.Count) AddShips(20);
             }
+        } else if(curLevel == Levels.Count) {
+            AddShips(20);
+            curLevel++;
         } else {
             int toAdd = CheckAndDeleteShips();
             AddShips(toAdd);
