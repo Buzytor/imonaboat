@@ -10,13 +10,13 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
     public void CreateShip() {
         if(shipPrefabs.Count > 0) {
-            Vector3 startPosition = generateStartPosition();
+            Vector3 startPosition = OtherShipBehaviour.generateStartPosition();
 
             float alpha = Random.Range(-180, 180);
             Quaternion directionQuat = Quaternion.AngleAxis(alpha, Vector3.up);
 
             Transform g = (Transform)Instantiate(shipPrefabs[Random.Range(0, shipPrefabs.Count-1)],
-                    startPosition, alpha);
+                                                    startPosition, directionQuat);
 
             ships.Add(g.gameObject);
         }

@@ -29,7 +29,9 @@ public class OtherShipBehaviour : MonoBehaviour {
     private PlayerShipBehaviour player;
     private Wobbler wob;
 
-    private Vector3 generateStartPosition() {
+    private Vector3 
+
+    static public Vector3 generateStartPosition() {
         float x, z;
         do {
             x = Random.Range( posRanXm, posRanXM );
@@ -37,7 +39,7 @@ public class OtherShipBehaviour : MonoBehaviour {
         do {
             z = Random.Range( posRanZm, posRanZM );
         } while(z < excRanZm || z > excRanZM);
-        return new Vector3(x, startY, z);
+        return new Vector3(x, 0, z);
     }
 
 	// Use this for initialization
@@ -46,8 +48,9 @@ public class OtherShipBehaviour : MonoBehaviour {
 
 
         startPosition = this.gameObject.transform.position;
+        startPosition.y = startY;
 
-        startAngle = this.gameObject.transform.rotatio * (-Vector3.forward);
+        startAngle = this.gameObject.transform.rotation * (-Vector3.forward);
 
 
         wob = new Wobbler(wobbleScale);
@@ -100,8 +103,7 @@ public class OtherShipBehaviour : MonoBehaviour {
     internal void ReactToSignal(HornControllerBehaviour.Signal s) {
         switch(s) {
             case HornControllerBehaviour.Signal.Left:
-                Debug.Log("Left");
-            //TODO turn left
+                r                
                 break;
             case HornControllerBehaviour.Signal.Right:
                 // TODO turn right
