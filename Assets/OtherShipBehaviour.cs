@@ -97,4 +97,17 @@ public class OtherShipBehaviour : MonoBehaviour {
         return true; // intentional, allows for && with predicates
     }
 
+    internal void ReactToSignal(HornControllerBehaviour.Signal s) {
+        switch(s) {
+            case HornControllerBehaviour.Signal.Left:
+                Debug.Log("Left");
+            //TODO turn left
+                break;
+            case HornControllerBehaviour.Signal.Right:
+                // TODO turn right
+                Debug.Log("Right");
+                break;
+            default: break;
+        }
+    }
 }
