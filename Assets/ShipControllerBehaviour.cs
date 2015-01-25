@@ -14,6 +14,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
     private JSONNode Levels;
 
     private int curLevel = 0;
+    private int curShips = 0;
 
     public void CreateShip() {
         if(shipPrefabs.Count > 0) {
@@ -45,6 +46,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
             Vector3 pos = new Vector3(Levels[lvl][i]["pos"][0].AsFloat, Levels[lvl][i]["pos"][1].AsFloat, Levels[lvl][i]["pos"][2].AsFloat);
             float angle = Levels[lvl][i]["angle"].AsFloat;
             CreateShip(pos, angle);
+            curShips ++;
         }
     }
 
@@ -72,7 +74,8 @@ public class ShipControllerBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(curLevel < Levels.Count) {
-            if(CheckAndDeleteShips() == 0) {
+            curShips -= CheckAndDeleteShips();
+            if(curShips == 0) {
                 LoadLevel(curLevel);
                 curLevel ++;
             }
