@@ -9,7 +9,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
     private List<GameObject> ships = new List<GameObject>();
 
-    private string LevelsJSON = "[[{'pos': [0, 0 , 46], 'angle': 180}]]";
+    private string LevelsJSON = "[[{'pos': [0, 0 , 0], 'angle': 180}], []]";
 
     private JSONNode Levels;
 
@@ -73,8 +73,10 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(curShips);
         if(curLevel < Levels.Count) {
             curShips -= CheckAndDeleteShips();
+            Debug.Log("post" + curShips);
             if(curShips == 0) {
                 LoadLevel(curLevel);
                 curLevel ++;
