@@ -13,6 +13,8 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
     private JSONNode Levels;
 
+    private int curLevel = 0;
+
     public void CreateShip() {
         if(shipPrefabs.Count > 0) {
             Vector3 startPosition = OtherShipBehaviour.generateStartPosition();
@@ -65,13 +67,19 @@ public class ShipControllerBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Levels = JSON.Parse(LevelsJSON);
-        
-        AddShips(20);
+        LoadLevel(curLevel);
 	}
 
 	// Update is called once per frame
 	void Update () {
+    if(curLevel < Levels.length) {
+        if(CheckAndDeleteShips() == 0) {
+            curLevel ++;
+            LoadLevel(curLevel);
+        }
+    } else {
         int toAdd = CheckAndDeleteShips();
         AddShips(toAdd);
+    }
 	}
 }
