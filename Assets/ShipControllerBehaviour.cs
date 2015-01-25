@@ -10,7 +10,14 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
     public void CreateShip() {
         if(shipPrefabs.Count > 0) {
-            Transform g = (Transform)Instantiate(shipPrefabs[Random.Range(0, shipPrefabs.Count-1)]);
+            Vector3 startPosition = generateStartPosition();
+
+            float alpha = Random.Range(-180, 180);
+            Quaternion directionQuat = Quaternion.AngleAxis(alpha, Vector3.up);
+
+            Transform g = (Transform)Instantiate(shipPrefabs[Random.Range(0, shipPrefabs.Count-1)],
+                    startPosition, alpha);
+
             ships.Add(g.gameObject);
         }
     }
@@ -25,7 +32,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
         return count;
     }
 
-    public void AddShips(int count) { 
+    public void AddShips(int count) {
         for(int i=0; i<count; i++) {
             CreateShip();
         }
@@ -35,7 +42,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
 	void Start () {
         AddShips(20);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         int toAdd = CheckAndDeleteShips();

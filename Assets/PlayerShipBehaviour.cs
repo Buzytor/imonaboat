@@ -17,7 +17,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
         velocity = -Vector3.forward*speed;
         wob = new Wobbler(wobbleScale);
     }
-	
+
 	// Update is called once per frame
 	void Update () {
         float w = wob.GetWobWob();

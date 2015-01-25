@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class OtherShipBehaviour : MonoBehaviour {
-    
+
     //full range
     public static float posRanZm = -40.0f;
     public static float posRanZM = 40.0f;
@@ -44,23 +44,18 @@ public class OtherShipBehaviour : MonoBehaviour {
     void Start() {
         player = GameObject.Find("PlayerShip").GetComponent<PlayerShipBehaviour>();
 
-        startPosition = generateStartPosition();
 
-        float alpha = Random.Range(-180, 180);
-        Quaternion directionQuat = Quaternion.AngleAxis(alpha, Vector3.up);
+        startPosition = this.gameObject.transform.position;
 
-        this.gameObject.transform.position = startPosition;
-        this.gameObject.transform.rotation = directionQuat;
-
-        startAngle = directionQuat * (-Vector3.forward);
+        startAngle = this.gameObject.transform.rotatio * (-Vector3.forward);
 
 
         wob = new Wobbler(wobbleScale);
     }
-	
+
 	// Update is called once per frame
 	void Update() {
-       
+
         float w = wob.GetWobWob();
         transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
 
@@ -91,6 +86,7 @@ public class OtherShipBehaviour : MonoBehaviour {
         return maneuver;
     }
 
+
     public bool IsOutsideOfMap() {
         // Game map is of size [-50, 50]x[-50, 50]
         return Mathf.Abs(transform.position.x) > 50.0f || Mathf.Abs(transform.position.z) > 50.0f;
@@ -100,5 +96,5 @@ public class OtherShipBehaviour : MonoBehaviour {
         Destroy(this.gameObject);
         return true; // intentional, allows for && with predicates
     }
-    
+
 }
