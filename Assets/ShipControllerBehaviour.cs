@@ -72,14 +72,14 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-    if(curLevel < Levels.length) {
-        if(CheckAndDeleteShips() == 0) {
-            curLevel ++;
-            LoadLevel(curLevel);
+        if(curLevel < Levels.Count) {
+            if(CheckAndDeleteShips() == 0) {
+                curLevel ++;
+                LoadLevel(curLevel);
+            }
+        } else {
+            int toAdd = CheckAndDeleteShips();
+            AddShips(toAdd);
         }
-    } else {
-        int toAdd = CheckAndDeleteShips();
-        AddShips(toAdd);
-    }
 	}
 }
