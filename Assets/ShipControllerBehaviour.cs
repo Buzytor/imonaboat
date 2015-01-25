@@ -11,7 +11,7 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
     private string LevelsJSON = "[[{'pos': [0, 0 , 46], 'angle': 180}]]";
 
-    private JSONData Levels;
+    private JSONNode Levels;
 
     public void CreateShip() {
         if(shipPrefabs.Count > 0) {
@@ -39,9 +39,9 @@ public class ShipControllerBehaviour : MonoBehaviour {
     }
 
     public void LoadLevel(int lvl) {
-        for(int i = 0; i < Levels[lvl].length; i ++) {
-            Vector3 pos = new Vector3(Levels[lvl][i]["pos"][0], Levels[lvl][i]["pos"][1], Levels[lvl][i]["pos"][2]);
-            float angle = Levels[lvl][i]["angle"];
+        for(int i = 0; i < Levels[lvl].Count; i ++) {
+            Vector3 pos = new Vector3(Levels[lvl][i]["pos"][0].AsFloat, Levels[lvl][i]["pos"][1].AsFloat, Levels[lvl][i]["pos"][2].AsFloat);
+            float angle = Levels[lvl][i]["angle"].AsFloat;
             CreateShip(pos, angle);
         }
     }
