@@ -67,15 +67,15 @@ public class ShipControllerBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Levels = JSON.Parse(LevelsJSON);
-        LoadLevel(curLevel);
 	}
 
 	// Update is called once per frame
 	void Update () {
         if(curLevel < Levels.Count) {
             if(CheckAndDeleteShips() == 0) {
-                curLevel ++;
                 LoadLevel(curLevel);
+                curLevel ++;
+                if(curLevel == Levels.Count) AddShips(20);
             }
         } else {
             int toAdd = CheckAndDeleteShips();
