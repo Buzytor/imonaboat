@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 public class ShipControllerBehaviour : MonoBehaviour {
 
     public List<Transform> shipPrefabs;
 
     private List<GameObject> ships = new List<GameObject>();
+
+    private string LevelsJSON = "[[{'pos': [0, 0 , 46], 'angle': 180}]]";
+
+    private JSONData Levels;
 
     public void CreateShip() {
         if(shipPrefabs.Count > 0) {
@@ -19,6 +24,25 @@ public class ShipControllerBehaviour : MonoBehaviour {
                                                     startPosition, directionQuat);
 
             ships.Add(g.gameObject);
+        }
+    }
+
+    public void CreateShip(Vector3 startPosition, float alpha) {
+        if(shipPrefabs.Count > 0) {
+            Quaternion directionQuat = Quaternion.AngleAxis(alpha, Vector3.up);
+
+            Transform g = (Transform)Instantiate(shipPrefabs[Random.Range(0, shipPrefabs.Count-1)],
+                                                    startPosition, directionQuat);
+
+            ships.Add(g.gameObject);
+        }
+    }
+
+    public void LoadLevel(int lvl) {
+        for(int i = 0; i < Levels[lvl].length; i ++) {
+            Vector3 pos = new Vector3(Levels[lvl][i]["pos"][0], Levels[lvl][i]["pos"][1], Levels[lvl][i]["pos"][2]);
+            float angle = Levels[lvl][i]["angle"];
+            CreateShip(pos, angle);
         }
     }
 
@@ -40,6 +64,8 @@ public class ShipControllerBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Levels = JSON.Parse(LevelsJSON);
+        
         AddShips(20);
 	}
 
