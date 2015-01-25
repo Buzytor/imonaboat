@@ -6,6 +6,8 @@ public class PlayerShipBehaviour : MonoBehaviour {
     public float speed = 2.0f;
     public Vector3 velocity;
 
+    public float wobbleScale;
+
     Wobbler wob;
 
     private bool spacePressedDown;
@@ -13,15 +15,13 @@ public class PlayerShipBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         velocity = -Vector3.forward*speed;
-        wob = new Wobbler(0.5f);
+        wob = new Wobbler(wobbleScale);
     }
 	
 	// Update is called once per frame
 	void Update () {
         float w = wob.GetWobWob();
         transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
-
-   
 
         if(Input.GetKey(KeyCode.Space) && !spacePressedDown) {
             // TODO do horn stuff
@@ -37,8 +37,10 @@ public class PlayerShipBehaviour : MonoBehaviour {
 
 	}
 
-    void OnTriggerEnter(Collider collider) {
+    void OnCollisionEnter() {
         GameObject c = GameObject.Find("GameController");
         c.GetComponent<GameFailureBehaviour>().GameOver();
+
+        Destroy(transform.FindChild("wave").gameObject);
     }
 }
