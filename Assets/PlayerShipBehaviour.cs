@@ -22,6 +22,9 @@ public class PlayerShipBehaviour : MonoBehaviour {
 	void Start () {
         velocity = -Vector3.forward*speed;
         wob = new Wobbler(wobbleScale);
+
+        GameObject o = GameObject.Find("overlay");
+        o.GetComponent<OverlayBehaviour>().Activate();
     }
 
 	// Update is called once per frame

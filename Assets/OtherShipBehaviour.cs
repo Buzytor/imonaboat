@@ -29,9 +29,7 @@ public class OtherShipBehaviour : MonoBehaviour {
     private PlayerShipBehaviour player;
     private Wobbler wob;
 
-    private Vector3 
-
-    static public Vector3 generateStartPosition() {
+    public static Vector3 generateStartPosition() {
         float x, z;
         do {
             x = Random.Range( posRanXm, posRanXM );
@@ -103,7 +101,6 @@ public class OtherShipBehaviour : MonoBehaviour {
     internal void ReactToSignal(HornControllerBehaviour.Signal s) {
         switch(s) {
             case HornControllerBehaviour.Signal.Left:
-                r                
                 break;
             case HornControllerBehaviour.Signal.Right:
                 // TODO turn right
