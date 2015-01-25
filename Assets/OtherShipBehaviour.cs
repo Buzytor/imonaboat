@@ -26,6 +26,8 @@ public class OtherShipBehaviour : MonoBehaviour {
 
     public float wobbleScale = 0.5f;
 
+    private int toMoveFramesX = 0;
+
     private PlayerShipBehaviour player;
     private Wobbler wob;
 
@@ -61,6 +63,16 @@ public class OtherShipBehaviour : MonoBehaviour {
         transform.Translate(Vector3.up*w*Time.deltaTime, Space.World);
 
         transform.Translate(startAngle*speed*Time.deltaTime, Space.Self);
+        if(toMoveFramesX != 0) {
+            if(toMoveFramesX > 0) {
+                transform.Translate(Vector3.right*Time.deltaTime, Space.World);
+                toMoveFramesX --;
+            }
+            if(toMoveFramesX < 0) {
+                transform.Translate(-Vector3.right*Time.deltaTime, Space.World);
+                toMoveFramesX ++;
+            }
+        }
 
         Vector3 avoidanceManeuver = AvoidanceManeuver(gameObject);
         transform.Translate(avoidanceManeuver*Time.deltaTime, Space.World);
@@ -101,9 +113,11 @@ public class OtherShipBehaviour : MonoBehaviour {
     internal void ReactToSignal(HornControllerBehaviour.Signal s) {
         switch(s) {
             case HornControllerBehaviour.Signal.Left:
+                toMoveFramesX -= 10;
                 break;
             case HornControllerBehaviour.Signal.Right:
                 // TODO turn right
+                toMoveFramesX += 10;
                 Debug.Log("Right");
                 break;
             default: break;
